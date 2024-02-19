@@ -14,3 +14,4 @@ EXPOSE 22
 
 COPY entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
+CMD [ "/usr/sbin/sshd", "-D", "-e"]
