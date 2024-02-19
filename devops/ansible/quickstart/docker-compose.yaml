@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  host:
+    image: journey-log/ansible-host
+    build:
+      context: ../common/images/host
+    volumes:
+      - ../common/init:/srv/init
+      - .:/srv/data
+    working_dir: /srv/data
+
+  db:
+#    image: quay.io/ansible/ansible-runner
+    image: journey-log/ansible-sshd
+    build:
+      context: ../common/images/sshd
+    volumes:
+      - ../common/init:/srv/init

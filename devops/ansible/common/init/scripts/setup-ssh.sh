@@ -1,5 +1,9 @@
 #!/bin/sh
-mkdir ~/.ssh
+
+if [ -d "~/.ssh" ]
+then
+  mkdir ~/.ssh
+fi
 
 cp /srv/init/ssh/id_rsa ~/.ssh/id_rsa
 chmod 600 ~/.ssh/id_rsa
