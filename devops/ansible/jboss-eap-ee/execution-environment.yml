@@ -1,0 +1,23 @@
+version: 3
+
+images:
+  base_image:
+    name: registry.redhat.io/jboss-eap-7/eap74-openjdk17-openshift-rhel8:7.4.12
+
+dependencies:
+  python_interpreter:
+    package_system: "python38"
+    python_path: "/usr/bin/python3.8"
+  ansible_core:
+    package_pip: ansible-core
+  ansible_runner:
+    package_pip: ansible-runner
+  system:
+    - openssh-clients
+    - sshpass
+#  galaxy:
+#    collections:
+#      - name: community.postgresql
+
+options:
+  user: jboss
