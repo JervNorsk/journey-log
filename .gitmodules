@@ -1,3 +1,6 @@
 [submodule "devops/ansible/custom-collection/journey_log/wildfly"]
 	path = devops/ansible/custom-collection/journey_log/wildfly
 	url = https://github.com/ansible-middleware/wildfly.git
+[submodule "devops/ansible/eap-migration-demo"]
+	path = devops/ansible/eap-migration-demo
+	url = https://github.com/ansible-middleware/eap-migration-demo.git
