@@ -1,0 +1,16 @@
+---
+- name: "Role debug"
+  ansible.builtin.debug:
+    var: vars
+
+- name: "JBoss EAP {{ eap_version }} Systemd Configuration"
+  include_role:
+    name: redhat.eap.eap_systemd
+  vars:
+    service_systemd_conf_file: "/usr/lib/systemd/system/{{ service_name }}.service"
+
+- name: "JBoss EAP {{ eap_version }} Management Configuration"
+  shell:
+    cmd: "{{ eap_home }}/bin/add-user.sh -u 'admin' -p 'admin'"
+
+# TODO: add cli configurations

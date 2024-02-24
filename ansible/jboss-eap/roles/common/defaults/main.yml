@@ -1,0 +1,16 @@
+---
+# --- JBoss EAP Metadata
+# ---
+service_name: "jboss-eap"
+
+# --- JBoss EAP Artifact
+# ---
+version: "7.4.0"
+
+# --- JBoss EAP Installation
+# ---
+offline_install: false
+
+# --- JBoss EAP Runtime
+# ---
+java_version: 17

@@ -1,0 +1,12 @@
+---
+- name: "Role debug"
+  ansible.builtin.debug:
+    var: vars
+
+- name: "JBoss EAP {{ eap_version }} Installation"
+  include_role:
+    name: redhat.eap.eap_install
+  vars:
+    eap_offline_install: "{{ offline_install }}"
+    eap_apply_cp: false
+#    eap_patch_version: "{{ patch_version }}"

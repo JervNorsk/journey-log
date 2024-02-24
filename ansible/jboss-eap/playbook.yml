@@ -1,0 +1,7 @@
+---
+- name: "JBoss EAP Automation Pipeline"
+  hosts: "{{ on_hosts }}"
+  roles:
+    - common
+    - install
+    - setup

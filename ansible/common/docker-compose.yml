@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+
+  as:
+    image: journey-log/ansible-base-node
+    build:
+      context: images/base-node
+    volumes:
+      - ./init:/srv/init
+    ports:
+      - "22:22"
+      - "8080:8080"
+      - "9990:9990"
+    privileged: true
