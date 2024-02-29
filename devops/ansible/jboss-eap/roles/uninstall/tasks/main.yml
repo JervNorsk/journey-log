@@ -1,0 +1,25 @@
+---
+- import_role:
+    name: common
+
+# ---
+# --- Uninstall systemd service
+# ---
+- when:
+    - service_systemd_file is not defined
+  include_tasks: ../setup/tasks/systemd/do_service_state.yml
+
+- when:
+    - service_systemd_file.stat.exists
+  include_tasks: ../setup/tasks/systemd/do_service_rollback.yml
+
+# ---
+# --- Uninstall JBoss EAP
+# ---
+- when:
+    - eap_install_dir is not defined
+  include_tasks: ../install/tasks/eap/do_install_state.yml
+
+- when:
+    - eap_install_dir.stat.exists
+  include_tasks: ../install/tasks/eap/do_install_rollback.yml

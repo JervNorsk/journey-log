@@ -1,0 +1,10 @@
+docker compose build
+docker compose up -d sandbox --force-recreate
+docker compose run --rm console bash
+
+
+docker compose run --rm console jboss-eap/install.sh
+docker compose run --rm console jboss-eap/setup.sh
+docker compose run --rm console jboss-eap/uninstall.sh
+
+docker compose exec sandbox journalctl -f -u jboss-eap

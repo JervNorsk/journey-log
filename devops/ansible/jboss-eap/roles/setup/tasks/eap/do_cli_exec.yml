@@ -1,0 +1,31 @@
+---
+- name: "Check arguments"
+  assert:
+    quiet: yes
+    that:
+      - eap_cli_remote_file is defined
+      - eap_cli_remote_file.stat is defined
+
+- name: "Retrieve remote files to execute"
+  find:
+    paths: "{{ eap_cli_remote_file.stat.path }}"
+    file_type: file
+    recurse: true
+  register: eap_cli_remote_file_children
+
+- block:
+    - name: "Execute JBoss CLI files"
+      loop: "{{ eap_cli_remote_file_children.files }}"
+      shell:
+        cmd: "{{ eap_home }}/bin/jboss-cli.sh -c --commands='run-batch --file={{ item.path }}'"
+      register: eap_cli_errors
+  always:
+    - when:
+        - eap_cli_errors is failed
+      name: "Show JBoss CLI errors"
+      loop: "{{ eap_cli_errors.results | selectattr('failed', 'defined') | selectattr('failed', 'equalto', true) }}"
+      loop_control:
+        label: "{{ item.item.path }}"
+      debug:
+        msg: "{{ item.stdout_lines }}"
+

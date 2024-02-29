@@ -1,0 +1,5 @@
+---
+- name: "Retrieve installation directory state"
+  stat:
+    path: "{{ eap_home }}"
+  register: eap_install_dir

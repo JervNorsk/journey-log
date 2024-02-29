@@ -1,0 +1,12 @@
+---
+- name: "Check arguments"
+  assert:
+    quiet: yes
+    that:
+      - eap_cli_remote_file is defined
+      - eap_cli_remote_file.stat is defined
+
+- name: "Remove remote files"
+  file:
+    path: "{{ eap_cli_remote_file.stat.path }}"
+    state: absent
