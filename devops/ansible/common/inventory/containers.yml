@@ -1,0 +1,10 @@
+as:
+  hosts:
+    172.28.188.248:
+      ansible_user: root
+      ansible_password: admin
+#  vars:
+
+#all:
+#  children:
+#    wildfly:

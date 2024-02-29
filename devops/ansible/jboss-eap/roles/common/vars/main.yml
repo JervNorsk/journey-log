@@ -1,0 +1,17 @@
+---
+# --- JBoss EAP Artifact
+# ---
+eap_version: "{{ version }}"
+
+# --- JBoss EAP Installation
+# ---
+eap_user: "jboss"
+eap_install_workdir: "/opt/{{ eap_user }}"
+eap_home: "{{ eap_install_workdir }}/{{ service_name }}-{{ (eap_version.split('.'))[0:2] | join('.') }}"
+
+# --- JBoss EAP Runtime
+# ---
+eap_java_package_name: "java-{{ java_version }}-openjdk-headless"
+eap_config_base: "standalone-ha.xml"
+eap_bind_addr: "0.0.0.0"
+eap_bind_addr_management: "0.0.0.0"

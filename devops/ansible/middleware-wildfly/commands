@@ -1,0 +1,1 @@
+ansible-navigator -m stdout --eei quay.io/ansible-middleware/ansible-middleware-ee run install.yml setup.yml -i inventory
