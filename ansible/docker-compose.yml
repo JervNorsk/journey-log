@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+
+  base:
+    image: ansible/base-node
+    build:
+      context: common/images/base-node
+
+  console:
+    image: ansible/control-node
+    build:
+      context: common/images/control-node
+    depends_on:
+      base:
+        condition: service_started
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - .:/mnt
+    working_dir: /mnt
+
+  sandbox:
+    image: ansible/managed-node
+    build:
+      context: common/images/managed-node
+    depends_on:
+      base:
+        condition: service_started
+    privileged: true
+    ports:
+      - "8080:8080"
+      - "9990:9990"

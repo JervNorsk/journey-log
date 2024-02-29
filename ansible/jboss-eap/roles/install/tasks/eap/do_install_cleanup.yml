@@ -1,0 +1,13 @@
+---
+- when:
+    - eap_installation_archive_path is defined
+  block:
+    - name: "Ensure installation archive is present"
+      stat:
+        path: "{{ eap_installation_archive_path }}"
+      register: eap_installation_archive_file
+
+    - name: "Cleanup installation archive"
+      file:
+        path: "{{ eap_installation_archive_file.stat.path }}"
+        state: absent

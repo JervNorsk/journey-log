@@ -1,0 +1,6 @@
+---
+- include_role:
+    name: redhat.eap.eap_systemd
+  vars:
+    service_systemd_conf_file: "{{ eap_systemd_service_path }}"
+

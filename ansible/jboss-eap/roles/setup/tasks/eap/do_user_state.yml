@@ -1,0 +1,18 @@
+---
+- name: "Check arguments"
+  assert:
+    quiet: yes
+    that:
+      - username is defined
+
+- name: "Retrieve management user file state"
+  stat:
+    path: "{{ eap_home }}/{{ eap_mode }}/configuration/mgmt-users.properties"
+  register: eap_mode_management_user_file
+
+- name: "Retrieve management user declarations"
+  shell:
+    cmd: "grep -E '^{{ username }}' {{ eap_mode_management_user_file.stat.path }} || exit 0"
+  register: eap_mode_management_user_declarations
+  changed_when: False
+

@@ -1,0 +1,6 @@
+---
+- import_role:
+    name: redhat.eap.eap_install
+  vars:
+    eap_offline_install: "{{ offline_install }}"
+    eap_apply_cp: false

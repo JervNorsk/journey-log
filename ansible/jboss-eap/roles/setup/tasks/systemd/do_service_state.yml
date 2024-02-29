@@ -1,0 +1,5 @@
+---
+- name: "Retrieve systemd service file state"
+  stat:
+    path: "{{ eap_systemd_service_path }}"
+  register: service_systemd_file
