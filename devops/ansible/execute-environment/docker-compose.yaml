@@ -2,9 +2,9 @@ version: "3.9"
 
 services:
   host:
-    image: journey-log/ansible-host
+    image: journey-log/ansible-control-node
     build:
-      context: ../common/images/host
+      context: ../common/images/control-node
     volumes:
       - ../common/init:/srv/init
       - .:/srv/data

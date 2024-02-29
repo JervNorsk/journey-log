@@ -8,12 +8,10 @@ services:
     volumes:
       - ../common/init:/srv/init
       - .:/srv/data
+      - /var/run/docker.sock:/var/run/docker.sock
     working_dir: /srv/data
 
-  db:
-#    image: quay.io/ansible/ansible-runner
-    image: journey-log/ansible-managed-node
+  as:
+    image: journey-log/ansible-wildfly
     build:
-      context: ../common/images/managed-node
-    volumes:
-      - ../common/init:/srv/init
+      context: context

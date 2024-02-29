@@ -1,0 +1,4 @@
+ansible-navigator builder create
+ansible-navigator run --mode stdout --eei journey-log/ansible-wildfly setup.yml --container-options='--user=root'
+
+docker compose run --rm --build as bash
