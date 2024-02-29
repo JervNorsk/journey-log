@@ -1,0 +1,6 @@
+product:
+  hosts:
+    sql:
+      ansible_host: db
+    nosql:
+      ansible_host: db
