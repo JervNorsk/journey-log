@@ -1,0 +1,9 @@
+---
+- name: "Installation and configuration"
+  hosts: wildfly
+  collections:
+    - middleware_automation.wildfly
+  tasks:
+    - name: "Set up for Wildfly instance"
+      include_role:
+        name: middleware_automation.wildfly.wildfly_systemd

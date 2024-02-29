@@ -1,0 +1,7 @@
+ansible-vault encrypt_string --vault-password-file a_password_file 'foobar' --name 'the_secret'
+ansible-vault encrypt_string --vault-id dev@a_password_file 'foooodev' --name 'the_dev_secret'
+echo -n 'letmein' | ansible-vault encrypt_string --vault-id dev@a_password_file --stdin-name 'db_password'
+ansible-vault encrypt_string --vault-id dev@a_password_file --stdin-name 'new_user_password'
+ansible localhost -m ansible.builtin.debug -a var="new_user_password" -e "@vars.yml" --vault-id dev@a_password_file
+ansible-vault create --vault-id test@multi_password_file foo.yml
+ansible-vault create --vault-id my_new_password@prompt foo2.yml

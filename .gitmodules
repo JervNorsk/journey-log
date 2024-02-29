@@ -1,0 +1,3 @@
+[submodule "devops/ansible/custom-collection/journey_log/wildfly"]
+	path = devops/ansible/custom-collection/journey_log/wildfly
+	url = https://github.com/ansible-middleware/wildfly.git
