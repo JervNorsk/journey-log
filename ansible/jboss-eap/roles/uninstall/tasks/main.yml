@@ -2,6 +2,10 @@
 - import_role:
     name: common
 
+
+- debug:
+    msg: "Hello"
+
 # ---
 # --- Uninstall systemd service
 # ---
