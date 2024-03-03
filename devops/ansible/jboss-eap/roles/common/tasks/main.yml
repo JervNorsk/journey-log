@@ -1,3 +1,0 @@
----
-#- include_tasks: ../../install/tasks/do_install_state.yml
-#- include_tasks: ../../setup/tasks/do_service_state.yml
