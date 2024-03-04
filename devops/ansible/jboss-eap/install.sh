@@ -10,5 +10,7 @@ ansible-galaxy collection install -r requirements.yml
 ansible-playbook playbook.yml \
   -i ../common/inventory \
   -e on_hosts=as \
-  -e offline_install=true
-#ansible-playbook playbook.yml -i ../common/inventory.yml -e on_hosts=as -vvv
+  -e do_install=true \
+  -e is_offline=true \
+  -e do_setup=true \
+  -e with_systemd=true
