@@ -4,7 +4,8 @@ RUN dnf check-update || exit 0
 
 RUN dnf install -y \
     procps \
-    iputils
+    iputils \
+    jq
 
 RUN dnf install -y \
     openssh-clients \
@@ -20,5 +21,10 @@ RUN dnf install -y \
 RUN pip install ansible
 
 COPY init   /srv/init
+
+RUN /srv/init/scripts/setup-ssh.sh \
+ && /srv/init/scripts/setup-sshd.sh
+
+RUN /srv/init/scripts/setup-ansible.sh
 
 ENTRYPOINT ["/srv/init/entrypoint.sh"]

@@ -8,4 +8,4 @@ fi
 ansible-playbook playbook.yml \
   -i ../common/inventory \
   -e on_hosts=as \
-  -e do_uninstall=true
+  -e do_healthcheck=true

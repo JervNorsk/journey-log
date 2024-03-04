@@ -1,0 +1,17 @@
+---
+- import_role:
+    name: common
+
+# ---
+# --- Runtime JBoss EAP
+# ---
+- when:
+    - eap_install_dir is not defined
+  include_tasks: ../install/tasks/eap/do_install_state.yml
+
+- when:
+    - eap_install_dir.stat.exists
+  block:
+    - when:
+        - do_healthcheck
+      include_tasks: eap/do_healthcheck.yml

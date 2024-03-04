@@ -7,10 +7,18 @@ service_name: "jboss-eap"
 # ---
 version: "7.4.0"
 
-# --- JBoss EAP Installation
-# ---
-offline_install: false
-
 # --- JBoss EAP Runtime
 # ---
 java_version: 17
+
+# --- Ansible Tasks
+# ---
+do_install: false
+is_offline: false
+
+do_uninstall: false
+
+do_setup: false
+with_systemd: true
+
+do_healthcheck: false
