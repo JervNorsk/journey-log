@@ -11,7 +11,7 @@ services:
     working_dir: /srv/data
 
   db:
-#    image: quay.io/ansible/ansible-runner
+    #    image: quay.io/ansible/ansible-runner
     image: journey-log/ansible-managed-node
     build:
       context: ../common/images/managed-node

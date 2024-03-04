@@ -1,8 +1,8 @@
 #!/bin/sh
 
-if [ -d "~/.ssh" ]
+if [ ! -d ~/.ssh ]
 then
-  mkdir ~/.ssh
+  mkdir ~/.ssh || exit 0
 fi
 
 cp /srv/init/ssh/authorized_keys ~/.ssh/authorized_keys

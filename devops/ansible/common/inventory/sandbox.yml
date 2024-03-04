@@ -1,0 +1,6 @@
+as:
+  hosts:
+    ansible-as-1:
+  vars:
+    ansible_user: root
+    ansible_password: admin

@@ -1,16 +1,76 @@
 ---
-- name: "Role debug"
-  ansible.builtin.debug:
-    var: vars
+- import_role:
+    name: common
 
-- name: "JBoss EAP {{ eap_version }} Systemd Configuration"
-  include_role:
-    name: redhat.eap.eap_systemd
-  vars:
-    service_systemd_conf_file: "/usr/lib/systemd/system/{{ service_name }}.service"
+- when:
+    - eap_install_dir is not defined
+  import_role:
+    name: install
 
-- name: "JBoss EAP {{ eap_version }} Management Configuration"
-  shell:
-    cmd: "{{ eap_home }}/bin/add-user.sh -u 'admin' -p 'admin'"
+# ---
+# --- Configure JBoss EAP admin user
+# ---
+- when:
+    - eap_install_dir.stat.exists
+  block:
+    - name: "JBoss EAP {{ eap_version }} | Check admin user state"
+      include_tasks: eap/do_user_state.yml
+      vars:
+        username: "{{ eap_admin_username }}"
+    - when:
+        - eap_mode_management_user_declarations.stdout.find(eap_admin_username) == -1
+      block:
+        - name: "JBoss EAP {{ eap_version }} | Add admin user"
+          include_tasks: eap/do_user_add.yml
+          vars:
+            username: "{{ eap_admin_username }}"
+            password: "{{ eap_admin_password }}"
+        - name: "JBoss EAP {{ eap_version }} | Update admin user state"
+          include_tasks: eap/do_user_state.yml
+          vars:
+            username: "{{ eap_admin_username }}"
+      rescue:
+        - name: "JBoss EAP {{ eap_version }} | Rollback admin user"
+          include_tasks: eap/do_user_remove.yml
+          vars:
+            username: "{{ eap_admin_username }}"
 
-# TODO: add cli configurations
+# ---
+# --- Configure systemd service
+# ---
+- when:
+    - eap_install_dir.stat.exists
+  block:
+    - name: "JBoss EAP {{ eap_version }} | Check systemd service state"
+      include_tasks: systemd/do_service_state.yml
+    - when:
+        - not service_systemd_file.stat.exists
+      block:
+        - name: "JBoss EAP {{ eap_version }} | Configure systemd service"
+          include_tasks: systemd/do_service_setup.yml
+        - name: "JBoss EAP {{ eap_version }} | Update systemd service state"
+          include_tasks: systemd/do_service_state.yml
+      rescue:
+        - name: "JBoss EAP {{ eap_version }} | Rollback systemd service"
+          include_tasks: systemd/do_service_rollback.yml
+
+# ---
+# --- Configure JBoss EAP by JBoss CLI files
+# ---
+- when:
+    - eap_install_dir.stat.exists
+    - service_systemd_file.stat.exists
+    - apply_cli is defined
+  block:
+    - name: "JBoss EAP {{ eap_version }} | Check CLI files state"
+      include_tasks: eap/do_cli_state.yml
+    - when:
+        - eap_cli_local_file.stat.exists
+      block:
+        - name: "JBoss EAP {{ eap_version }} | Upload CLI files"
+          include_tasks: eap/do_cli_upload.yml
+        - name: "JBoss EAP {{ eap_version }} | Execute CLI files"
+          include_tasks: eap/do_cli_exec.yml
+      always:
+        - name: "JBoss EAP {{ eap_version }} | Cleanup CLI files"
+          include_tasks: eap/do_cli_cleanup.yml

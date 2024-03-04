@@ -1,7 +1,13 @@
 ---
 - name: "JBoss EAP Automation Pipeline"
-  hosts: "{{ on_hosts }}"
+  hosts: "{{ on_hosts | default('localhost') }}"
   roles:
-    - common
     - install
     - setup
+
+  tasks:
+    - when:
+        - uninstall is defined
+        - uninstall
+      import_role:
+        name: uninstall

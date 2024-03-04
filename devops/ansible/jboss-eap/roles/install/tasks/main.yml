@@ -1,12 +1,24 @@
 ---
-- name: "Role debug"
-  ansible.builtin.debug:
-    var: vars
+- import_role:
+    name: common
 
-- name: "JBoss EAP {{ eap_version }} Installation"
-  include_role:
-    name: redhat.eap.eap_install
-  vars:
-    eap_offline_install: "{{ offline_install }}"
-    eap_apply_cp: false
-#    eap_patch_version: "{{ patch_version }}"
+# ---
+# --- Install JBoss EAP
+# ---
+- name: "JBoss EAP {{ eap_version }} | Check installation state"
+  include_tasks: eap/do_install_state.yml
+
+- when:
+    - not eap_install_dir.stat.exists
+  block:
+    - name: "JBoss EAP {{ eap_version }} | Execute installation"
+      include_tasks: eap/do_install_exec.yml
+    - name: "JBoss EAP {{ eap_version }} | Cleanup installation"
+      include_tasks: eap/do_install_cleanup.yml
+      vars:
+        eap_installation_archive_path: "{{ full_path_to_archive }}"
+    - name: "JBoss EAP {{ eap_version }} | Update installation state"
+      include_tasks: eap/do_install_state.yml
+  rescue:
+    - name: "JBoss EAP {{ eap_version }} | Rollback installation"
+      include_tasks: eap/do_install_rollback.yml

@@ -7,16 +7,18 @@ RUN dnf install -y \
     iputils
 
 RUN dnf install -y \
-    openssh-clients  \
-    openssh-server
+    openssh-clients \
+    openssh-server \
+    sshpass
 RUN echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
 RUN echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 RUN echo -n 'root:admin' | chpasswd
 
-RUN dnf install -y python3
+RUN dnf install -y \
+    python3 \
+    python3-pip
+RUN pip install ansible
 
-COPY entrypoint.sh /
-ENTRYPOINT ["/sbin/init"]
-#ENTRYPOINT ["/entrypoint.sh"]
-CMD [ "/usr/sbin/sshd", "-D", "-e"]
-#CMD [ "/sbin/init"]
+COPY init   /srv/init
+
+ENTRYPOINT ["/srv/init/entrypoint.sh"]

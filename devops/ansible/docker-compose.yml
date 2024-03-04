@@ -18,6 +18,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - .:/mnt
     working_dir: /mnt
+    deploy:
+      replicas: 0
 
   sandbox:
     image: ansible/managed-node
@@ -25,6 +27,18 @@ services:
       context: common/images/managed-node
     depends_on:
       base:
+        condition: service_started
+    deploy:
+      replicas: 0
+
+  as:
+    image: ansible/jboss-eap
+    build:
+      context: jboss-eap
+    depends_on:
+      console:
+        condition: service_started
+      sandbox:
         condition: service_started
     privileged: true
     ports:
