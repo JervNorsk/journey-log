@@ -28,19 +28,15 @@ services:
     depends_on:
       base:
         condition: service_started
-    deploy:
-      replicas: 0
+    privileged: true
 
   as:
     image: ansible/jboss-eap
     build:
       context: jboss-eap
     depends_on:
-      console:
-        condition: service_started
       sandbox:
         condition: service_started
-    privileged: true
     ports:
       - "8080:8080"
       - "9990:9990"
