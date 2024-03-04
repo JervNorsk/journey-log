@@ -4,8 +4,7 @@
 
 - when:
     - eap_install_dir is not defined
-  import_role:
-    name: install
+  include_tasks: ../../install/tasks/eap/do_install_state.yml
 
 # ---
 # --- Configure JBoss EAP admin user
@@ -40,6 +39,7 @@
 # ---
 - when:
     - eap_install_dir.stat.exists
+    - with_systemd is defined and with_systemd == 'true'
   block:
     - name: "JBoss EAP {{ eap_version }} | Check systemd service state"
       include_tasks: systemd/do_service_state.yml
@@ -59,7 +59,6 @@
 # ---
 - when:
     - eap_install_dir.stat.exists
-    - service_systemd_file.stat.exists
     - apply_cli is defined
   block:
     - name: "JBoss EAP {{ eap_version }} | Check CLI files state"

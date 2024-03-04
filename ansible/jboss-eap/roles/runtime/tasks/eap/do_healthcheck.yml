@@ -1,0 +1,11 @@
+---
+- import_role:
+    name: common
+
+# ---
+# --- Healthcheck JBoss EAP instance
+# ---
+- shell:
+    cmd: curl http://localhost:8080
+  changed_when: False
+

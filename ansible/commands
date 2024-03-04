@@ -1,10 +1,10 @@
 podman compose build
-podman compose up -d <name> --force-recreate
+podman compose up -d sandbox --force-recreate
 podman compose run --rm console bash
 
 
-podman compose run --rm console jboss-eap/install.sh
-podman compose run --rm console jboss-eap/setup.sh
-podman compose run --rm console jboss-eap/uninstall.sh
+podman compose run --rm console sh jboss-eap/install.sh
+podman compose run --rm console sh jboss-eap/setup.sh
+podman compose run --rm console sh jboss-eap/uninstall.sh
 
 podman compose exec sandbox journalctl -f -u jboss-eap
